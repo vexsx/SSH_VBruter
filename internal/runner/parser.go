@@ -39,28 +39,49 @@ func Parse() *Options {
 	//showUsage()
 
 	fmt.Printf("%sEnter the port (default: 22)%s : ", green, reset)
-	fmt.Scanln(&opt.port)
+	_, err := fmt.Scanln(&opt.port)
+	if err != nil {
+		return nil
+	}
 
 	fmt.Printf("%sEnter the number of retries (default: 1)%s : ", green, reset)
-	fmt.Scanln(&opt.retries)
+	_, err = fmt.Scanln(&opt.retries)
+	if err != nil {
+		return nil
+	}
 
 	fmt.Printf("%sEnter the number of concurrent connections (default: 1)%s : ", green, reset)
-	fmt.Scanln(&opt.concurrent)
+	_, err = fmt.Scanln(&opt.concurrent)
+	if err != nil {
+		return nil
+	}
 
 	var verboseInput string
 	fmt.Printf("%sEnter verbose mode (true/false)%s : ", green, reset)
-	fmt.Scanln(&verboseInput)
+	_, err = fmt.Scanln(&verboseInput)
+	if err != nil {
+		return nil
+	}
 	opt.verbose, _ = strconv.ParseBool(verboseInput)
 
 	fmt.Printf("%sEnter the output file path%s : ", green, reset)
-	fmt.Scanln(&opt.output)
+	_, err = fmt.Scanln(&opt.output)
+	if err != nil {
+		return nil
+	}
 
 	fmt.Printf("%sEnter the wordlist file path :%s ", green, reset)
-	fmt.Scanln(&opt.wordlist)
+	_, err = fmt.Scanln(&opt.wordlist)
+	if err != nil {
+		return nil
+	}
 
 	var timeoutInput string
 	fmt.Printf("%sEnter the timeout duration (in seconds) :%s ", green, reset)
-	fmt.Scanln(&timeoutInput)
+	_, err = fmt.Scanln(&timeoutInput)
+	if err != nil {
+		return nil
+	}
 	if timeout, err := strconv.Atoi(timeoutInput); err == nil {
 		opt.timeout = time.Duration(timeout) * time.Second
 	}
