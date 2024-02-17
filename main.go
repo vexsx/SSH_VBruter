@@ -1,4 +1,4 @@
-package SSH_VBruter
+package main
 
 import "SSH_VBruter/internal/runner"
 

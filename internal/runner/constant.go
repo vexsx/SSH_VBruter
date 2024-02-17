@@ -9,7 +9,7 @@ var (
 )
 
 const (
-	version = "v0.1.0"
+	version = "v0.1.2"
 	banner  = `
              _
      ` + version + ` | |
@@ -18,9 +18,9 @@ const (
     \__ \__ \ |_) |
     |___/___/_.__/
 
-Secure Shell Bruteforcer
+  Secure Shell Bruteforcer Edited By Vexsx
   infosec@kitabisa.com
-
+  
 `
 	usage = `Usage:
   ssb [-p port] [-w wordlist.txt] [-t timeout]

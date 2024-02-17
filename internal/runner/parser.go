@@ -4,8 +4,12 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"log"
 	"os"
 	"time"
+
+	"github.com/logrusorgru/aurora"
+	"github.com/projectdiscovery/gologger"
 )
 
 // Options declare its options
@@ -32,18 +36,25 @@ func Parse() *Options {
 	flag.IntVar(&opt.port, "p", 22, "")
 	flag.IntVar(&opt.retries, "r", 1, "")
 	flag.IntVar(&opt.concurrent, "c", 100, "")
-	flag.BoolVar(&opt.verbose, "v", false, "")
+	flag.BoolVar(&opt.verbose, "v", true, "")
 	flag.StringVar(&opt.output, "o", "", "")
 	flag.StringVar(&opt.wordlist, "w", "", "")
 	flag.DurationVar(&opt.timeout, "t", opt.timeout, "")
 
 	flag.Usage = func() {
 		showBanner()
-		fmt.Fprint(os.Stderr, usage)
+		showUsage()
+		_, fprint := fmt.Fprint(os.Stderr, usage)
+		if fprint != nil {
+			return
+		}
+
 	}
 	flag.Parse()
 
 	showBanner()
+	showUsage()
+	fmt.Scanln()
 
 	if err := opt.validate(); err != nil {
 		gologger.Fatalf("Error! %s.", err.Error())
@@ -53,5 +64,16 @@ func Parse() *Options {
 }
 
 func showBanner() {
-	fmt.Fprint(os.Stderr, aurora.Bold(aurora.Cyan(banner)))
+	_, err := fmt.Fprint(os.Stderr, aurora.Bold(aurora.Cyan(banner)))
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func showUsage() {
+	_, err := fmt.Fprint(os.Stderr, aurora.Bold(aurora.Cyan(usage)))
+	if err != nil {
+		log.Fatal(err)
+	}
+
 }
