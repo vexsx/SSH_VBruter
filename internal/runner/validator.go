@@ -12,8 +12,11 @@ import (
 func (opt *Options) validate() error {
 	var uhost []string
 
+	green := "\033[32m"
+	reset := "\033[0m"
+
 	// Prompt user for host information
-	fmt.Println("Enter host like root@localhost:")
+	fmt.Printf("%sEnter host like root@localhost :%s ", green, reset)
 	reader := bufio.NewReader(os.Stdin)
 	input, err := reader.ReadString('\n')
 	if err != nil {

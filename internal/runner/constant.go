@@ -1,7 +1,5 @@
 package runner
 
-import "time"
-
 var (
 	opt   *Options
 	uhost []string
@@ -41,7 +39,5 @@ Options:
   v
      Verbose mode.
 
-
 `
-	timeout = 30 * time.Second
 )
