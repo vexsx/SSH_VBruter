@@ -23,27 +23,24 @@ const (
   
 `
 	usage = `Usage:
-  ssb [-p port] [-w wordlist.txt] [-t timeout]
-      [-c concurrent] [-o output] [user@]hostname
+  ssb
 
 Options:
-  -p port
+  port
      Port to connect to on the remote host (default 22).
-  -w wordlist
+  wordlist
      Path to wordlist file.
-  -t timeout
+  timeout
      Connection timeout (default 30s).
-  -c concurrent
+  concurrent
      Concurrency/threads level (default 100).
-  -r retries
+  retries
      Specify the connection retries (default 1).
-  -o output
+  output
      Save valid password to file.
-  -v
+  v
      Verbose mode.
 
-Examples:
-  ssb -w wordlist.txt -t 1m -c 1000 root@localhost
 
 `
 	timeout = 30 * time.Second

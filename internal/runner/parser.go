@@ -1,15 +1,14 @@
 package runner
 
 import (
-	"flag"
 	"fmt"
 	"io"
 	"log"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/logrusorgru/aurora"
-	"github.com/projectdiscovery/gologger"
 )
 
 // Options declare its options
@@ -30,34 +29,43 @@ type Options struct {
 
 // Parse arguments
 func Parse() *Options {
-	opt = &Options{}
-	opt.timeout = timeout
-
-	flag.IntVar(&opt.port, "p", 22, "")
-	flag.IntVar(&opt.retries, "r", 1, "")
-	flag.IntVar(&opt.concurrent, "c", 100, "")
-	flag.BoolVar(&opt.verbose, "v", true, "")
-	flag.StringVar(&opt.output, "o", "", "")
-	flag.StringVar(&opt.wordlist, "w", "", "")
-	flag.DurationVar(&opt.timeout, "t", opt.timeout, "")
-
-	flag.Usage = func() {
-		showBanner()
-		showUsage()
-		_, fprint := fmt.Fprint(os.Stderr, usage)
-		if fprint != nil {
-			return
-		}
-
+	opt := &Options{
+		timeout: 30 * time.Second, // Example default value for the timeout.
 	}
-	flag.Parse()
 
 	showBanner()
 	showUsage()
-	fmt.Scanln()
+
+	fmt.Println("Enter the port:")
+	fmt.Scanln(&opt.port)
+
+	fmt.Println("Enter the number of retries:")
+	fmt.Scanln(&opt.retries)
+
+	fmt.Println("Enter the number of concurrent connections:")
+	fmt.Scanln(&opt.concurrent)
+
+	var verboseInput string
+	fmt.Println("Enter verbose mode (true/false):")
+	fmt.Scanln(&verboseInput)
+	opt.verbose, _ = strconv.ParseBool(verboseInput)
+
+	fmt.Println("Enter the output file path:")
+	fmt.Scanln(&opt.output)
+
+	fmt.Println("Enter the wordlist file path:")
+	fmt.Scanln(&opt.wordlist)
+
+	var timeoutInput string
+	fmt.Println("Enter the timeout duration (in seconds):")
+	fmt.Scanln(&timeoutInput)
+	if timeout, err := strconv.Atoi(timeoutInput); err == nil {
+		opt.timeout = time.Duration(timeout) * time.Second
+	}
 
 	if err := opt.validate(); err != nil {
-		gologger.Fatalf("Error! %s.", err.Error())
+		fmt.Printf("Error! %s.\n", err.Error())
+		os.Exit(1)
 	}
 
 	return opt
