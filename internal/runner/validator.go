@@ -25,7 +25,7 @@ func (opt *Options) validate() error {
 	input = strings.TrimSpace(input) // Trim newline and any leading/trailing spaces
 
 	if input == "" {
-		return errors.New("Please define a target server")
+		return errors.New("please define a target server")
 	} else {
 		uhost = strings.SplitN(input, "@", 2)
 	}
@@ -51,7 +51,7 @@ func (opt *Options) validate() error {
 		}
 		opt.list = f
 	} else {
-		return errors.New("No wordlist file provided")
+		return errors.New("no wordlist file provided")
 	}
 
 	if opt.output != "" {

@@ -36,7 +36,6 @@ func Parse() *Options {
 	reset := "\033[0m"
 
 	showBanner()
-	//showUsage()
 
 	fmt.Printf("%sEnter the port (default: 22)%s : ", green, reset)
 	_, err := fmt.Scanln(&opt.port)
@@ -95,16 +94,8 @@ func Parse() *Options {
 }
 
 func showBanner() {
-	_, err := fmt.Fprint(os.Stderr, aurora.Bold(aurora.Cyan(banner)))
+	_, err := fmt.Fprint(os.Stderr, aurora.Bold(aurora.Blue(banner)))
 	if err != nil {
 		log.Fatal(err)
 	}
-}
-
-func showUsage() {
-	_, err := fmt.Fprint(os.Stderr, aurora.Bold(aurora.Cyan(usage)))
-	if err != nil {
-		log.Fatal(err)
-	}
-
 }

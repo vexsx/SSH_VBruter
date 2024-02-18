@@ -1,13 +1,11 @@
 package runner
 
 var (
-	opt   *Options
-	uhost []string
-	vld   bool
+	vld bool
 )
 
 const (
-	version = "v0.1.2"
+	version = "v0.2.0"
 	banner  = `
              _
      ` + version + ` | |
@@ -18,26 +16,8 @@ const (
 
   Secure Shell Bruteforcer Edited By Vexsx
   infosec@kitabisa.com
+
+  ** Provide Reqiured Informations **
   
-`
-	usage = `Usage:
-  ssb
-
-Options:
-  port
-     Port to connect to on the remote host (default 22).
-  wordlist
-     Path to wordlist file.
-  timeout
-     Connection timeout (default 30s).
-  concurrent
-     Concurrency/threads level (default 100).
-  retries
-     Specify the connection retries (default 1).
-  output
-     Save valid password to file.
-  v
-     Verbose mode.
-
 `
 )

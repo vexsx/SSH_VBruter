@@ -57,7 +57,10 @@ func (opt *Options) run(password string) bool {
 		fmt.Printf("[%s] Connected with '%s'.\n", aurora.Green("VLD"), aurora.Magenta(password))
 
 		if opt.file != nil {
-			fmt.Fprintf(opt.file, "%s\n", password)
+			_, err2 := fmt.Fprintf(opt.file, "%s\n", password)
+			if err2 != nil {
+				return false
+			}
 		}
 
 		vld = true
@@ -67,7 +70,7 @@ func (opt *Options) run(password string) bool {
 }
 
 func (opt *Options) showInfo() {
-	info := "________________________\n"
+	info := "__________________________\n"
 	info += "\n :: Username: " + opt.user
 	info += "\n :: Hostname: " + opt.host
 	info += "\n :: Port    : " + strconv.Itoa(opt.port)
@@ -76,5 +79,8 @@ func (opt *Options) showInfo() {
 	info += "\n :: Timeout : " + opt.timeout.String()
 	info += "\n________________________\n\n"
 
-	fmt.Fprint(os.Stderr, info)
+	_, err := fmt.Fprint(os.Stderr, info)
+	if err != nil {
+		return
+	}
 }
