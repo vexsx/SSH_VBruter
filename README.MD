@@ -12,8 +12,9 @@
 ![contributions](https://img.shields.io/badge/contributions-welcome-magenta.svg?style=flat)
 
 
-**V**_exsx_ **S**_ecure_ **S**_hell_ **B**_ruteforcer_ — A faster & simpler way to bruteforce SSH server.
-
+**V**_exsx_ **S**_ecure_ **S**_hell_ **B**_ruteforcer_ — A faster & simpler way to bruteforce SSH server.  
+this is a none flag usage application  
+main source code is (ssb) from `Pwnesia`
 
 
 ## ♨️ Features
@@ -30,4 +31,4 @@ GO Run ./main.go
 
 ## 🖼️ image 
 
-<img src="res.png" alt="image">
+<img src="files/res.png" alt="image">
