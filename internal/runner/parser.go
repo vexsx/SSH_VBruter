@@ -1,15 +1,14 @@
 package runner
 
 import (
-	"flag"
 	"fmt"
 	"io"
 	"log"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/logrusorgru/aurora"
-	"github.com/projectdiscovery/gologger"
 )
 
 // Options declare its options
@@ -30,50 +29,73 @@ type Options struct {
 
 // Parse arguments
 func Parse() *Options {
-	opt = &Options{}
-	opt.timeout = timeout
-
-	flag.IntVar(&opt.port, "p", 22, "")
-	flag.IntVar(&opt.retries, "r", 1, "")
-	flag.IntVar(&opt.concurrent, "c", 100, "")
-	flag.BoolVar(&opt.verbose, "v", true, "")
-	flag.StringVar(&opt.output, "o", "", "")
-	flag.StringVar(&opt.wordlist, "w", "", "")
-	flag.DurationVar(&opt.timeout, "t", opt.timeout, "")
-
-	flag.Usage = func() {
-		showBanner()
-		showUsage()
-		_, fprint := fmt.Fprint(os.Stderr, usage)
-		if fprint != nil {
-			return
-		}
-
+	opt := &Options{
+		timeout: 30 * time.Second, // Example default value for the timeout.
 	}
-	flag.Parse()
+	green := "\033[32m"
+	reset := "\033[0m"
 
 	showBanner()
-	showUsage()
-	fmt.Scanln()
+
+	fmt.Printf("%sEnter the port (default: 22)%s : ", green, reset)
+	_, err := fmt.Scanln(&opt.port)
+	if err != nil {
+		return nil
+	}
+
+	fmt.Printf("%sEnter the number of retries (default: 1)%s : ", green, reset)
+	_, err = fmt.Scanln(&opt.retries)
+	if err != nil {
+		return nil
+	}
+
+	fmt.Printf("%sEnter the number of concurrent connections (default: 1)%s : ", green, reset)
+	_, err = fmt.Scanln(&opt.concurrent)
+	if err != nil {
+		return nil
+	}
+
+	var verboseInput string
+	fmt.Printf("%sEnter verbose mode (true/false)%s : ", green, reset)
+	_, err = fmt.Scanln(&verboseInput)
+	if err != nil {
+		return nil
+	}
+	opt.verbose, _ = strconv.ParseBool(verboseInput)
+
+	fmt.Printf("%sEnter the output file path%s : ", green, reset)
+	_, err = fmt.Scanln(&opt.output)
+	if err != nil {
+		return nil
+	}
+
+	fmt.Printf("%sEnter the wordlist file path :%s ", green, reset)
+	_, err = fmt.Scanln(&opt.wordlist)
+	if err != nil {
+		return nil
+	}
+
+	var timeoutInput string
+	fmt.Printf("%sEnter the timeout duration (in seconds) :%s ", green, reset)
+	_, err = fmt.Scanln(&timeoutInput)
+	if err != nil {
+		return nil
+	}
+	if timeout, err := strconv.Atoi(timeoutInput); err == nil {
+		opt.timeout = time.Duration(timeout) * time.Second
+	}
 
 	if err := opt.validate(); err != nil {
-		gologger.Fatalf("Error! %s.", err.Error())
+		fmt.Printf("Error! %s.\n", err.Error())
+		os.Exit(1)
 	}
 
 	return opt
 }
 
 func showBanner() {
-	_, err := fmt.Fprint(os.Stderr, aurora.Bold(aurora.Cyan(banner)))
+	_, err := fmt.Fprint(os.Stderr, aurora.Bold(aurora.Blue(banner)))
 	if err != nil {
 		log.Fatal(err)
 	}
-}
-
-func showUsage() {
-	_, err := fmt.Fprint(os.Stderr, aurora.Bold(aurora.Cyan(usage)))
-	if err != nil {
-		log.Fatal(err)
-	}
-
 }
