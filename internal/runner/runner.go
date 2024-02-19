@@ -66,6 +66,7 @@ func (opt *Options) run(password string) bool {
 		vld = true
 		gologger.Infof("Done!")
 		os.Exit(0)
+		fmt.Printf("password is saved to : %s", opt.output)
 	}
 
 	return vld
